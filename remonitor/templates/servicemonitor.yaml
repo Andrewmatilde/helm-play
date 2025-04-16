@@ -1,0 +1,19 @@
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: etcd-monitor
+  labels:
+    appGroup: prometheus
+    {{- include "remonitor.labels" . | nindent 4 }}
+spec:
+  selector:
+    matchLabels:
+      app: etcd
+  endpoints:
+    - port: etcd
+      scheme: https
+      tlsConfig:
+        caFile: /etc/prometheus/secrets/etcd-client-cert/etcd-ca
+        certFile: /etc/prometheus/secrets/etcd-client-cert/etcd-client
+        insecureSkipVerify: true
+        keyFile: /etc/prometheus/secrets/etcd-client-cert/etcd-client-key

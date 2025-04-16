@@ -1,0 +1,10 @@
+apiVersion: v2
+name: remonitor
+description: A Helm chart for remote monitoring of multiple Kubernetes clusters master
+
+
+type: application
+
+version: 0.1.0
+
+appVersion: "1.16.0"

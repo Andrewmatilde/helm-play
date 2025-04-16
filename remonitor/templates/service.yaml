@@ -1,0 +1,28 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: etcd-service
+  labels:
+    app: etcd
+    {{- include "remonitor.labels" . | nindent 4 }}
+spec:
+  clusterIP: None
+  ports:
+    - name: etcd
+      port: 2379
+      targetPort: 2379
+---
+apiVersion: v1
+kind: Endpoints
+metadata:
+  name: etcd-service
+  labels:
+    app: etcd
+    {{- include "remonitor.labels" . | nindent 4 }}
+subsets:
+  - addresses:
+      - ip: 2003:da8:2004:1000:0a23:0d88:0e22:e8a7
+    ports:
+      - name: etcd
+        port: 2379
+        protocol: TCP

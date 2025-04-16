@@ -1,0 +1,33 @@
+apiVersion: monitoring.coreos.com/v1
+kind: Prometheus
+metadata:
+  labels:
+    app: prometheus
+    {{- include "remonitor.labels" . | nindent 4 }}
+  name: prometheus
+spec:
+  podMetadata:
+    annotations:
+      cni.networking.kun/ipv4Enabled: 'false'
+  resources:
+    limits:
+      cpu: "2"
+      memory: 4Gi
+    requests:
+      cpu: "1"
+      memory: 1Gi
+  retention: 30d
+  retentionSize: 100GB
+  securityContext:
+    runAsUser: 0
+  serviceMonitorSelector:
+    matchLabels:
+      appGroup: prometheus
+  secrets:
+    - etcd-client-cert
+  storage:
+    volumeClaimTemplate:
+      spec:
+        resources:
+          requests:
+            storage: 100Gi
